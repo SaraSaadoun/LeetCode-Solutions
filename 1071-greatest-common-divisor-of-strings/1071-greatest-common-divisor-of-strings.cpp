@@ -8,6 +8,7 @@ public:
 
         int n = str1.size(), m = str2.size();
         bool flag = 0;
+        
         for(int k = str1.size(); k>=1; --k){
             if(n % k != 0 || m % k !=0)
                 continue;
