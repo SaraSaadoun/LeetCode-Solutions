@@ -2,7 +2,6 @@ class Solution {
 public:
     
     string gcdOfStrings(string str1, string str2) {
-        //get x which divides str1
         
         if(str1.size() > str2.size())
             swap(str1, str2);
