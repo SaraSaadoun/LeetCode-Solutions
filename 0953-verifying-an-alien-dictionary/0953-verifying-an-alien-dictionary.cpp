@@ -2,7 +2,7 @@ class Solution {
 public:
     bool isAlienSorted(vector<string>& words, string order) {
         //maping their language to ours
-        unordered_map <char, char> mp;
+        map <char, char> mp;
         
         for(int i=0; i<26; ++i){
             mp[order[i]] = i+'a';
