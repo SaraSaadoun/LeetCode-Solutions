@@ -26,14 +26,12 @@ public:
 
             //check at the i-th position
             for(int j=0; j<m; ++j){
-                
                 if(i >= words[j].size()) {
-                    
-                    if(firstTime && j != 0)
+                    if(j != 0 && words[j].size() < words[j-1].size())
                         return false;
-                    firstTime = 0;
                     continue;
                 }
+
 
                 if(mp[words[j][i]] > prev){
                     prev = mp[words[j][i]];
