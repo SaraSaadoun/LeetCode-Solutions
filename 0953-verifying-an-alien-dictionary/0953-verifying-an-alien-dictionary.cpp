@@ -2,32 +2,54 @@ class Solution {
 public:
     bool isAlienSorted(vector<string>& words, string order) {
         //maping their language to ours
-        map <char, char> mp;
+        unordered_map <char, char> mp;
         
         for(int i=0; i<26; ++i){
             mp[order[i]] = i+'a';
         }
         
-        int n = (int)words.size();
         
+        int m = (int)words.size();
+        
+        //sz of the longest word
+        int n = (int)words[0].size();
+        
+        for(int i=1; i<m; ++i){
+            if(words[i].size() > n)
+                n = words[i].size(); 
+        }
+
         for(int i=0; i<n; ++i){
-            int m = words[i].size();
+            char prev = 'a'-1; 
+            bool equal = 0;
+            bool firstTime = 1;
+
+            //check at the i-th position
             for(int j=0; j<m; ++j){
-                words[i][j] = mp[words[i][j]];
+                
+                if(i >= words[j].size()) {
+                    
+                    if(firstTime && j != 0)
+                        return false;
+                    firstTime = 0;
+                    continue;
+                }
+
+                if(mp[words[j][i]] > prev){
+                    prev = mp[words[j][i]];
+                }
+                else if(mp[words[j][i]] == prev){
+                    equal = 1;
+                }
+                else{
+                    return false;
+                }
             }
+            if(!equal) {
+                return true;
+            }
+            
         }
-
-        //get the sorted words
-        vector <string> sorted_words = words;
-        sort(sorted_words.begin(), sorted_words.end());
-
-        //compare
-        for(int i=0; i<n; ++i){
-            if(sorted_words[i] != words[i])
-                return false;
-        }
-
         return true;
-        
     }
 };
