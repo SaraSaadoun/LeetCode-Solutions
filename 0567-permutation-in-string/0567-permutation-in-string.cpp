@@ -1,4 +1,4 @@
-//Author: Sara Hamza
+//improved solution
 class Solution {
 public:
     bool checkInclusion(string s1, string s2) {
@@ -6,41 +6,40 @@ public:
 
         if(n > m) return false;
 
-        //getting freq of all letters in s1 
-        //freq (const) to restore freqCpy later
-        int freq[26] = {0}, freqCpy[26] = {0};
-        for(int i = 0; i < n; ++i){
-            freqCpy[s1[i] - 'a']++;
-            freq[s1[i] - 'a']++;
-        }
+        int freq[26] = {0}, freq2[26] = {0};
 
-        for(int  i = 0; i <= m - n; ++i){
-            //r u any letter of s1?
-            if(freq[s2[i] - 'a'] > 0){
-                //compare from i to i+n-1
-                int j = i, nn = n;
-                while(nn && j < m){
-                    //not a permutation?
-                    if(freqCpy[s2[j] - 'a'] <= 0){
-                        break;
+        //build freq of all letters in s1 
+        for(int i=0; i<n; ++i) freq[s1[i]-'a']++;
 
-                    }
-                    //mark that a letter 've been found
-                    freqCpy[s2[j++] - 'a']--;
-                    --nn;
+        //build freq2 of 2st sliding window letters in s2 
+        //except for the last letter
+        int i = 0;
+        for(; i<n-1; ++i) freq2[s2[i]-'a']++;
+
+
+        for(; i<m; ++i){
+            //get last letter in freq2
+            freq2[s2[i]-'a']++;
+
+            //compare freq of s1 with freq of a substr of s2
+            bool flag = 0;
+            for(int j=0; j<26; ++j){
+                if(freq[j] != freq2[j]){
+                    flag = 1;
+                    break;
                 }
-
-                //a permutation?
-;               if(nn == 0) return true;
-                
-                //restore freqCpy's values if it is not a permutation
-                for(int k = 0; k < 26; ++k)
-                    freqCpy[k] = freq[k];
             }
-        }
-        
+            
+            //equal frequences ?  a permutation
+            if(flag == 0) return true;
 
-        return false;        
+            //get first letter of substr our of freq2
+            freq2[s2[i-n+1]-'a']--;
+        } 
+            
+
+        
+        return false;      
 
 
     }
