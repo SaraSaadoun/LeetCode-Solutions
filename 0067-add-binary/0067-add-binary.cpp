@@ -6,12 +6,13 @@ public:
         string sum = "";
         if(n > m)
             swap(a, b), swap(n, m);
+        cout << a << ' ' << b ;
         //full adder eq
         int i = n - 1, j = m - 1;
         while(i >= 0){
             bool x = a[i] == '1', y = b[j] == '1';
 
-            sum = to_string((x^y)^cin) + sum;
+            sum = to_string(x^y^cin) + sum;
             cin = (x&y) | (cin&(x^y)); 
 
             --i, --j;
