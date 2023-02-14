@@ -6,7 +6,6 @@ public:
         string sum = "";
         if(n > m)
             swap(a, b), swap(n, m);
-        cout << a << ' ' << b ;
         //full adder eq
         int i = n - 1, j = m - 1;
         while(i >= 0){
