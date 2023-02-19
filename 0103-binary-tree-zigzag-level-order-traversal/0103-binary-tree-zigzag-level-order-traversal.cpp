@@ -1,3 +1,4 @@
+//Author: Sara Hamza
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -17,14 +18,14 @@ public:
         //construct a vector of the nodes of this level
 
         //reverse direction of this vector or not?
-        //keep track of this so you can alternalty change the reversal state of the current vector to get the zigzag shape
+        //keep track of this so you can alternatly change the reversal state of the current vector to get the zigzag shape
         //no change -> reverse -> no change -> ..
 
         //then append it to your final answer
 
         queue <TreeNode*> q;
         q.push(root);
-        
+
         vector<vector<int>> ans;
         bool rev = 1; //reverse?
 
@@ -43,22 +44,22 @@ public:
 
                 level.push_back(node->val);
 
-                //constructing queue's next level nodes
+                //constructing queue's next level
                 q.push(node->left);
                 q.push(node->right);
 
             }
-        // empty vector -> ignore
-        if(level.size() == 0)
-            continue;
+            // empty vector -> ignore
+            if(level.size() == 0)
+                continue;
 
-        //reverse vector "level" or not before appending to the final answer to get the zigzag shape?
-        if(rev)
-            reverse(level.begin(), level.end());
+            //reverse vector "level" before appending to the final answer to get the zigzag shape?
+            if(rev)
+                reverse(level.begin(), level.end());
 
-        ans.push_back(level);
-        
-            
+            ans.push_back(level);
+
+
         }
         return ans;
 
