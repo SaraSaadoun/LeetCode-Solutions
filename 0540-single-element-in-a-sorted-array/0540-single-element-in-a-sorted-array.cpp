@@ -2,28 +2,8 @@ class Solution {
 public:
     int singleNonDuplicate(vector<int>& nums) {
         //another solution is commented below
-        int n = nums.size();
-        int l = 0, r = n - 1, mid = 0, ans = 0;
-        while(l <= r){
-            mid = l + (r - l) / 2;
-            
-            //make sure the idx is even
-            if(mid&1)
-                --mid;
-            
-            if(mid >= n - 1 || nums[mid] != nums[mid+1]){
-                ans = nums[mid];
-                r = mid - 1;
-            }
-            else{
-                l = mid + 2;
-            }
-            
-        }
-        return ans;
-    }
-};
-/* 
+        
+        //fast
         int n = nums.size();
         int l = 0, r = n / 2, mid = 0, ans = 0;
         while(l <= r){
@@ -49,4 +29,27 @@ public:
 
         }
         return ans;
+        
+    }
+};
+/* 
+        int n = nums.size();
+        int l = 0, r = n - 1, mid = 0, ans = 0;
+        while(l <= r){
+            mid = l + (r - l) / 2;
+            
+            //make sure the idx is even
+            if(mid&1)
+                --mid;
+            
+            if(mid >= n - 1 || nums[mid] != nums[mid+1]){
+                ans = nums[mid];
+                r = mid - 1;
+            }
+            else{
+                l = mid + 2;
+            }
+            
+        }
+        return ans;        
         */
