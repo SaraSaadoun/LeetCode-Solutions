@@ -1,12 +1,9 @@
 class Solution {
-public:
-    vector<int> p,c;
-    int n, OO = 1e9;
-   
+public:   
     
     int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) {
         
-        n = profits.size();
+        int n = profits.size();
         
         vector<pair<int, int>> v(n);
         for(int i = 0; i < n; ++i){
