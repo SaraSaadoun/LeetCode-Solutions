@@ -1,6 +1,22 @@
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
+                int n= prices.size();
+        int mn = prices[0], mx = 0;
+        for(int i=1; i<n; ++i){
+            if(prices[i]>mn){
+                mx = max(mx, prices[i]-mn);
+            }
+            mn = min(mn, prices[i]);
+        }
+        return mx;
+        
+    }
+};
+/* another solution : 
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
         int n = prices.size();
         //mx[i] => the max from i till the end of the array
         vector<int>mx(n, -1);
@@ -17,3 +33,4 @@ public:
         return ans;
     }
 };
+*/
