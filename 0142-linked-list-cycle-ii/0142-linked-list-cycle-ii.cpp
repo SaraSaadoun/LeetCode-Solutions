@@ -9,18 +9,24 @@
 class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
-    
-        ListNode *ptr = head;
 
-        unordered_map<ListNode*, bool> vis;
-        while(ptr){
-            if(vis[ptr]){
-                return ptr;
+        ListNode *slow = head, *fast = head;
+        while(fast && fast->next){
+            // update
+            slow = slow->next;
+            fast = fast->next->next;
+            // check for the cycle
+            if(slow == fast){
+                // dist from head to answer in the forward path
+                // equals dist from slow / fast to it in the backward (cyclic) path
+                while(head != slow){
+                    head = head->next;
+                    slow = slow->next;
+                }
+                return slow;
             }
-            vis[ptr] = true;                
-            ptr = ptr->next;
         }
-        
+
         return nullptr;
     }
 };
