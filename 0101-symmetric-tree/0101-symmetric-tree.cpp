@@ -11,23 +11,19 @@
  */
 class Solution {
 public:
-    string dfsLeft(TreeNode* node) {
-        if(!node)
-            return "#";
-        return "#" + dfsLeft(node->left) + "#" + to_string(node->val) + "#" + dfsLeft(node->right);
+    bool check(TreeNode* leftNode , TreeNode* rightNode) {
+        if(!leftNode && !rightNode)
+            return true;
+        if(!leftNode || !rightNode)
+            return false;
         
-    }
-    string dfsRight(TreeNode* node) {
-        if(!node)
-            return "#";
-        return "#" + dfsRight(node->right) + "#" + to_string(node->val) + "#" + dfsRight(node->left);
-        
+        if(leftNode->val != rightNode->val)
+            return false;
+        return check(leftNode->left, rightNode->right) &&
+            check(leftNode->right, rightNode->left);
     }
     bool isSymmetric(TreeNode* root) {
-        if(!root) return true;
-        string left = dfsLeft(root->left);
-        string right = dfsRight(root->right);
+        return check(root->left, root->right);
         
-        return left == right;
     }
 };
