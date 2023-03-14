@@ -11,18 +11,33 @@
  */
 class Solution {
 public:
-    long long solve(TreeNode* node, string s) {
+    
+    int solve(TreeNode* node, string s) {
+        /*
+            node : current node
+            s    : concatenation of all values that we 've visited in this branch so far
+                in branching into the left node=> send concat (s,  leftValue)
+                             and the right node=> send concat (s, rightValue)
+        */
+        
+        // leaf node ? concatenate its value to s and convert it to int
         if(!node->left && !node->right)
             return stoi(s+to_string(node->val));
         
-        long long num1 = 0, num2 = 0;
+        // branching
+        int leftSubtree = 0, rightSubtree = 0;
+        // if the left node is null => there is no left branch, ignore it (num1 = 0)
+        // else get the answer of the left subtree 
         if(node->left)
-            num1 = solve(node->left, s+to_string(node->val));
+            leftSubtree = solve(node->left, s+to_string(node->val));
+        // if the right node is null => there is no right branch, ignore it (num2 = 0)
+        // else get the answer of the right subtree 
         if(node->right)
-            num2 = solve(node->right, s+to_string(node->val));
-        return num1 + num2;
+            rightSubtree = solve(node->right, s+to_string(node->val));
+        // return the sum of the answers of both subtrees (left and right)
+        return leftSubtree + rightSubtree;
     }
     int sumNumbers(TreeNode* root) {
-        return (int)solve(root, "");
+        return solve(root, "");
     }
 };
