@@ -1,11 +1,9 @@
 class TrieNode {
 public:
-    char val;
     bool isCompleteWord;
     TrieNode *children[26];
 
-    TrieNode(char c) {
-        val = c;
+    TrieNode() {
         isCompleteWord = false;
         for(int i = 0 ; i < 26 ; i++)
             children[i] = nullptr;
@@ -16,7 +14,7 @@ class Trie {
 public:
     TrieNode *root;
     Trie() {
-        root = new TrieNode('0'); 
+        root = new TrieNode(); 
         // a -> p -> p -> l -> e
         //   -> l ->
     }
@@ -27,7 +25,7 @@ public:
         }
         int idx = word[i] - 'a';
         if(!node->children[idx])
-            node->children[idx] = new TrieNode(word[i]);
+            node->children[idx] = new TrieNode();
         
          _insert(node->children[idx], word, i+1);
     }
