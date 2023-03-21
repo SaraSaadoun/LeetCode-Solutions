@@ -4,18 +4,14 @@ public:
         
         int n = nums.size();
         long long ans = 0, zerosNo = 0;
-        
-        for (int i = 0; i < n; ++i) {
-            if(nums[i] == 0) {
-                ++zerosNo;
+        int st = 0, en = 0;
+        while(en < n) {
+            if(nums[en] != 0) {
+                st = en + 1;
             }
-            else {
-                ans += zerosNo * (zerosNo + 1) / 2;
-                zerosNo = 0;
-            }
+            ans += en - st + 1;
+            ++en;
         }
-        ans += zerosNo * (zerosNo + 1) / 2;
-
         return ans;
     }
 };
