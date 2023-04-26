@@ -1,15 +1,13 @@
 class Solution {
 public:
     int addDigits(int num) {
-        while(num > 9) {
-            int n = num, sum = 0;
-            while(n) {
-                int d = n % 10;
-                sum += d;
-                n /= 10;
-            }
-            num = sum;
-        }
-        return num;
+        if(num == 0)
+            return num;
+        if(num % 9 == 0)
+            return 9;
+        return num % 9;
+        // compact formula:
+        // return num == 0 ? 0 : 1 + (num - 1) % 9;
+        
     }
 };
