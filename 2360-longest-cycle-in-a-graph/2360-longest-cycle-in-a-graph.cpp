@@ -1,44 +1,36 @@
 class Solution {
 public:
-    #define N 100009
-    int cycleLength = 0;
-    //timer = num > 1 if vis in this component
-        //timer = -1 if never vis
-        //timer = 0 if vis in other compnent
-    int dfs(int node, vector<int>& edges, vector<int>&timer, int time) { 
-        if(node == -1)
-            return -1;
-        
-        if(timer[node] > 0){
-            return time - timer[node];
+    const int N = 1e5+9;
+    int timer = 1;
+    int dfs(int u, vector<int>& edges,vector<int>&time) {
+        if(time[u] > 0) {
+            return timer - time[u];
         }
-            
-        if(timer[node] == 0)
+        if(time[u] == 0 || edges[u] == -1)
             return -1;
         
-        timer[node] = time;
-        int ret = dfs(edges[node], edges, timer, time+1);
-        timer[node] = 0;
+        time[u] = timer++;
+       
+        int ret = dfs(edges[u], edges, time);
+        
+        time[u] = 0;
         return ret;
     }
     int longestCycle(vector<int>& edges) {
         int n = edges.size();
-        int longestCycle = -1;
-        vector<int>timer(n, -1);
-        set<int>st;
-        for(int i = 0; i<n; ++i){
-            if(edges[i] != -1)
-                st.insert(edges[i]);
-        }
-        
+        vector<int> time(n+1, -1), in(n+1, 0);
 
-        for(auto i : st) {
-            if(timer[i] == -1) {
-                cycleLength = dfs(i, edges, timer, 1);
-                longestCycle = max(cycleLength, longestCycle);
-                cycleLength = -1;
-            }
+        for(int i = 0; i < n; ++i){
+            if(edges[i]!=-1)
+                in[edges[i]] = 1;
         }
-        return longestCycle;
+        int mxCycle = -1;
+        for(int i = 0; i < n; ++i){
+            timer = 1;
+            if(in[i] && time[i] == -1)
+                mxCycle = max(mxCycle, dfs(i, edges, time));
+        }
+        return mxCycle;
+        
     }
 };
