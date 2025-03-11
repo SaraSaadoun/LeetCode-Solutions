@@ -1,65 +1,72 @@
 class Solution {
 public:
+    // Helper function to check if a character is a vowel
     bool isVowel(char c) {
-        return c == 'a' || c == 'i' || c == 'o' || c == 'u' || c == 'e';
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
     }
 
     long long countOfSubstrings(string word, int k) {
-
-        // get next consonant index
         int n = word.size();
-        vector<int> next_con(n, n);
-        int next_con_idx = n;
+        
+        // Stores the index of the next consonant for each position
+        vector<int> nextConsonant(n, n);
+        int nextConsonantIndex = n;
+        
+        // Populate next consonant indices from right to left
         for (int i = n - 1; i >= 0; --i) {
-            
-            next_con[i] = next_con_idx;
-
-            if (!isVowel(word[i]))
-                next_con_idx = i;
+            nextConsonant[i] = nextConsonantIndex;
+            if (!isVowel(word[i])) {
+                nextConsonantIndex = i;
+            }
         }
         
-        unordered_map <char, int> vowels_freq;
-        int cons = 0;
-        int l = 0, r = 0;
+        unordered_map<char, int> vowelFrequency;
+        int consonantCount = 0;
+        int left = 0, right = 0;
         long long ans = 0;
 
-        while (r < n) {
-            // freq
-            if (isVowel(word[r])) {
-                ++vowels_freq[word[r]];
-            }
-            else {
-                ++cons;
+        while (right < n) {
+            // Update frequency map and consonant count
+            if (isVowel(word[right])) {
+                ++vowelFrequency[word[right]];
+            } else {
+                ++consonantCount;
             }
 
-            while(cons > k) {
-                if( isVowel(word[l]) ) {
-                    --vowels_freq[ word[l] ];
-                    if(vowels_freq[word[l]] == 0) {
-                        vowels_freq.erase(word[l]);
+            // If the substring is invalid (too many consonants), shrink from the left
+            while (consonantCount > k) {
+                if (isVowel(word[left])) {
+                    --vowelFrequency[word[left]];
+                    if (vowelFrequency[word[left]] == 0) {
+                        vowelFrequency.erase(word[left]);
                     }
+                } else {
+                    --consonantCount;
                 }
-                else {
-                    --cons;
-                }
-                ++l;
+                ++left;
             }
 
-            while(vowels_freq.size() >= 5 && cons == k) {
-                ans += next_con[r] - r; 
+            // If the substring is valid, count the number of valid substrings
+            while (vowelFrequency.size() >= 5 && consonantCount == k) {
+                // Count substrings that remain valid until the next consonant
+                ans += nextConsonant[right] - right;
                 
-                if(isVowel(word[l])) {
-                    --vowels_freq[word[l]];
-                    if (vowels_freq[word[l]] == 0) 
-                        vowels_freq.erase(word[l]);
+                // Move the left boundary to explore other valid substrings
+                if (isVowel(word[left])) {
+                    --vowelFrequency[word[left]];
+                    if (vowelFrequency[word[left]] == 0) {
+                        vowelFrequency.erase(word[left]);
+                    }
+                } else {
+                    --consonantCount;
                 }
-                else {
-                    --cons;
-                }
-                ++l;
+                ++left;
             }
-            ++r;
+
+            // Expand the window to the right
+            ++right;
         }        
+
         return ans;
     }
 };
